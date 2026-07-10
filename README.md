@@ -101,7 +101,7 @@ Shared conventions: location as `{city}` **or** `{lat, lon}`; metric/imperial un
 ```bash
 # Prerequisites: Python 3.12, uv, Docker
 git clone https://github.com/AbhishekRaj0037/weather-mcp-platform.git
-cd weather-mcp-platform
+cd Weather-MCP-Server
 cp .env.example .env      # config is env-only, app fails fast on missing keys
 docker compose up -d      # Postgres 16 (+pgvector) and Redis 7
 uv sync
