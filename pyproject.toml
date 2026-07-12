@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "mypy>=2.2.0",
     "pydantic-settings>=2.14.2",
+    "pytest>=9.1.1",
     "ruff>=0.15.21",
 ]
 
