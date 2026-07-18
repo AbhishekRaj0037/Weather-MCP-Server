@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi>=0.139.0",
+    "fastmcp>=3.4.4",
     "mypy>=2.2.0",
     "pydantic-settings>=2.14.2",
     "pytest>=9.1.1",
