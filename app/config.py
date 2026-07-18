@@ -8,7 +8,10 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = SettingsConfigDict(env_file=".env")
     POSTGRES_PASSWORD: str = SettingsConfigDict(env_file=".env")
     POSTGRES_USER: str = SettingsConfigDict(env_file=".env")
-    pass
+    SECRET_KEY: str = "77eGSyhinlNSVTLZKJ/qYqktRaGuM5SyQmTBqJ6AOZM="
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    DEBUG: bool = False
 
 
 settings = Settings()

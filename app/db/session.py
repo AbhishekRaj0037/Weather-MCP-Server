@@ -1,5 +1,4 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-
 from app.config import settings
 
 # asyncpg driver — note the postgresql+asyncpg:// prefix
