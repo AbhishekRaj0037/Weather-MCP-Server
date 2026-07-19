@@ -190,8 +190,13 @@ class TestDecodeToken:
 
     def test_tampered_token_returns_none(self):
         token = create_access_token({"sub": "user-123"})
-        # Flip a character in the signature to corrupt it
-        tampered = token[:-1] + ("a" if token[-1] != "a" else "b")
+        # Flip a character in the middle of the token (not the last char --
+        # the final base64 character can carry padding-only bits, so
+        # mutating it can sometimes decode to identical bytes and not
+        # actually corrupt the signature).
+        mid = len(token) // 2
+        flipped_char = "a" if token[mid] != "a" else "b"
+        tampered = token[:mid] + flipped_char + token[mid + 1 :]
         assert decode_token(tampered) is None
 
     def test_token_signed_with_wrong_secret_returns_none(self):
