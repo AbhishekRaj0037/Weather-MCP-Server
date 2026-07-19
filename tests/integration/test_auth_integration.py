@@ -17,7 +17,7 @@ async def test_health_check(client):
 @pytest.mark.asyncio
 async def test_signup_creates_user(client):
     response = await client.post(
-        "/signup",
+        "v1/signup",
         json={"email": "alice@example.com", "password": "strongpassword123"},
     )
     assert response.status_code == 201
@@ -29,7 +29,7 @@ async def test_signup_creates_user(client):
 @pytest.mark.asyncio
 async def test_signup_duplicate_email_rejected(client):
     payload = {"email": "bob@example.com", "password": "strongpassword123"}
-    first = await client.post("/signup", json=payload)
+    first = await client.post("v1/signup", json=payload)
     assert first.status_code == 201
 
     second = await client.post("/signup", json=payload)
@@ -39,11 +39,11 @@ async def test_signup_duplicate_email_rejected(client):
 @pytest.mark.asyncio
 async def test_login_with_correct_credentials_returns_tokens(client):
     await client.post(
-        "/signup",
+        "v1/signup",
         json={"email": "carol@example.com", "password": "strongpassword123"},
     )
     response = await client.post(
-        "/login",
+        "v1/login",
         json={"email": "carol@example.com", "password": "strongpassword123"},
     )
     assert response.status_code == 200
@@ -55,11 +55,11 @@ async def test_login_with_correct_credentials_returns_tokens(client):
 @pytest.mark.asyncio
 async def test_login_with_wrong_password_rejected(client):
     await client.post(
-        "/signup",
+        "v1/signup",
         json={"email": "dave@example.com", "password": "strongpassword123"},
     )
     response = await client.post(
-        "/login",
+        "v1/login",
         json={"email": "dave@example.com", "password": "wrongpassword"},
     )
     assert response.status_code == 401
@@ -67,22 +67,24 @@ async def test_login_with_wrong_password_rejected(client):
 
 @pytest.mark.asyncio
 async def test_protected_endpoint_rejects_missing_token(client):
-    response = await client.get("/me")  # adjust to your actual protected route
+    response = await client.get("v1/auth/me")  # adjust to your actual protected route
     assert response.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_protected_endpoint_accepts_valid_token(client):
     await client.post(
-        "/signup",
+        "v1/signup",
         json={"email": "erin@example.com", "password": "strongpassword123"},
     )
     login = await client.post(
-        "/login",
+        "v1/login",
         json={"email": "erin@example.com", "password": "strongpassword123"},
     )
     token = login.json()["access_token"]
 
-    response = await client.get("/me", headers={"Authorization": f"Bearer {token}"})
+    response = await client.get(
+        "v1/auth/me", headers={"Authorization": f"Bearer {token}"}
+    )
     assert response.status_code == 200
     assert response.json()["email"] == "erin@example.com"
