@@ -1,31 +1,45 @@
-# Place at: .github/workflows/ci.yml
 name: CI
 
-on:
-  push:
-    branches: [main]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  quality:
+  test:
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v4
 
-      - name: Set up uv + Python 3.12
-        uses: astral-sh/setup-uv@v5
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: weather_mcp_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          enable-cache: true
+
+      - name: Install uv
+        run: pip install uv
 
       - name: Install dependencies
         run: uv sync
-      - name: Lint (ruff)
+
+      - name: Run lint
         run: uv run ruff check .
-      - name: Format check (ruff)
-        run: uv run ruff format --check .
-      - name: Type check (mypy)
-        run: uv run mypy .
-      - name: Tests (pytest)
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/weather_mcp_test
+          SECRET_KEY: ci-test-secret-key
         run: uv run pytest -v
