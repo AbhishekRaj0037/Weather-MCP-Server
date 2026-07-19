@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   test:
@@ -41,5 +41,8 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/weather_mcp_test
-          SECRET_KEY: ci-test-secret-key
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: weather_mcp_test
+          Gemini_API_Key: ${{ secrets.GEMINI_API_KEY }}
         run: uv run pytest -v
