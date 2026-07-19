@@ -33,7 +33,7 @@ async def test_signup_duplicate_email_rejected(client):
     assert first.status_code == 201
 
     second = await client.post("v1/auth/signup", json=payload)
-    assert second.status_code == 400  # or 409, depending on your API design
+    assert second.status_code == 409
 
 
 @pytest.mark.asyncio
@@ -67,7 +67,7 @@ async def test_login_with_wrong_password_rejected(client):
 
 @pytest.mark.asyncio
 async def test_protected_endpoint_rejects_missing_token(client):
-    response = await client.get("v1/auth/me")  # adjust to your actual protected route
+    response = await client.get("v1/auth/me")
     assert response.status_code == 401
 
 
