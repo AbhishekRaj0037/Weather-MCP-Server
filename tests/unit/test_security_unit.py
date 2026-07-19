@@ -1,9 +1,5 @@
 """
 Unit tests for app/auth/security.py
-
-These are true unit tests: no database, no network, no FastAPI app.
-We test the pure functions in isolation - hashing, JWT encode/decode,
-and password verification logic.
 """
 
 import hashlib

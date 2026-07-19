@@ -1,8 +1,5 @@
 """
 Integration tests for auth endpoints.
-
-Unlike the unit tests, these go through the real FastAPI app + a real
-(test) Postgres database via the `client` fixture in conftest.py.
 """
 
 import pytest

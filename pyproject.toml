@@ -18,6 +18,7 @@ dependencies = [
     "python-jose>=3.5.0",
     "ruff>=0.15.21",
     "sqlalchemy>=2.0.51",
+    "structlog>=26.1.0",
 ]
 
 [dependency-groups]

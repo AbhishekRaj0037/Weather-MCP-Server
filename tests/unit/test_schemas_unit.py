@@ -1,8 +1,5 @@
 """
 Unit tests for pydantic schema validation.
-
-These tests do NOT touch the database, network, or the FastAPI app —
-they instantiate the schemas directly and check validation behavior.
 """
 
 import pytest

@@ -1,6 +1,4 @@
 """
-tests/conftest.py
-
 Shared fixtures for integration tests: a real (test) Postgres database,
 a clean transaction per test, and an async HTTP client wired to the app.
 """
