@@ -24,7 +24,7 @@ from app.auth.security import (
     hash_token,
 )
 
-logger = structlog.get_logger()
+logger = structlog.get_logger(__name__)
 
 router = APIRouter(prefix="/v1/auth", tags=["auth"])
 security = HTTPBearer()
